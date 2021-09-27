@@ -1,0 +1,89 @@
+{
+  "$id": "https://www.digitalticircle.com.br/_schemas/mk.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Digital Circle - Make Instructions",
+  "type": "object",
+  "additionalProperties": false,
+  "$d": {
+    "task": {
+      "type": "object",
+      "properties": {
+        "pre": {
+          "description": "Predecessor tasks",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cmd": {
+          "description": "Command this task should run",
+          "type": "string"
+        },
+        "help": {
+          "description": "Help for this task",
+          "type": "string"
+        },
+        "onerror": {
+          "description": "What to do in case of error"
+        },
+        "env": {
+          "type": "object",
+          "description": "Global Env Var",
+          "patternProperties": {
+            ".{1.}": {
+              "type": "string"
+            }
+          }
+        },
+        "vars": {
+          "type": "object",
+          "description": "Global Text Var",
+          "patternProperties": {
+            ".{1.}": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": "false"
+    }
+  },
+  "properties": {
+    "default": {
+      "type": "string",
+      "default": "main",
+      "description": "Default task to run"
+    },
+    "tasks": {
+      "type": "object",
+      "patternProperties": {
+        ".{1,}": {
+          "allOf": [
+            {
+              "$ref": "#/$d/task"
+            }
+          ]
+        }
+      },
+      "description": "Tasks configured for execution"
+    },
+    "env": {
+      "type": "object",
+      "description": "Global Env Var",
+      "patternProperties": {
+        ".{1.}": {
+          "type": "string"
+        }
+      }
+    },
+    "vars": {
+      "type": "object",
+      "description": "Global Text Var",
+      "patternProperties": {
+        ".{1.}": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

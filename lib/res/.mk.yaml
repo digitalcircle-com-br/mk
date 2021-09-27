@@ -1,0 +1,22 @@
+# SAMPLE mk file
+default: main
+env:
+
+tasks:
+  deploy:
+    pre: [ build,test ]
+    help: Deploys the project
+    cmd: echo deploying
+  test:
+    pre: [ c ]
+    help: Tests project
+    cmd: echo testing
+  build:
+    help: Build binaries
+    cmd: echo building
+  main:
+    help: Main task
+    pre: [ build ]
+    cmd: |-
+      echo main
+      echo done
