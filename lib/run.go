@@ -118,7 +118,7 @@ func RunTask(name string, t *MkTask, l int) error {
 	}
 	var c *exec.Cmd
 	if runtime.GOOS == "windows" {
-		c = exec.Command("cmd")
+		c = exec.Command("cmd.exe")
 	} else {
 		c = exec.Command("sh")
 	}
