@@ -36,7 +36,7 @@ func ResolveConfig() (err error) {
 			err = errors.New(fmt.Sprintf("Config File %s not found", CLI.File))
 		}
 	}
-	deffiles := []string{".mk.yaml", ".mk", "mk", "mk.yaml"}
+	deffiles := []string{".mk.yaml", ".mk", "mk", "mk.yaml", "mk.yml", ".mk.yml"}
 	for _, v := range deffiles {
 		if CLI.Init || FileExists(v) {
 			println(fmt.Sprintf("Using file: %s", v))
@@ -71,7 +71,7 @@ func Log(i int, task string, stream string, b string) {
 	timeLb := time.Now().Format("15:04:05")
 	tab := ""
 	for x := 0; x < i; x++ {
-		tab = tab + "\t"
+		tab = tab + "  "
 	}
 	if stream == "O" {
 		println(color.GreenString(fmt.Sprintf("%s %s [%s - %s]: %s", timeLb, tab, task, stream, b)))
@@ -118,10 +118,11 @@ func RunTask(name string, t *MkTask, l int) error {
 	}
 	var c *exec.Cmd
 	if runtime.GOOS == "windows" {
-		c = exec.Command("cmd.exe")
+		c = exec.Command("cmd")
 	} else {
 		c = exec.Command("sh")
 	}
+
 	for k, v := range env {
 		c.Env = append(c.Env, fmt.Sprintf("%s=%s", k, v))
 	}
@@ -344,13 +345,6 @@ var vars map[string]string
 func Run() error {
 	env = make(map[string]string)
 	vars = make(map[string]string)
-	envstrs := os.Environ()
-	for _, k := range envstrs {
-		parts := strings.Split(k, "=")
-		ek := strings.TrimSpace(parts[0])
-		ev := os.Getenv(ek)
-		env[ek] = ev
-	}
 
 	err := Prepare()
 	if err != nil {
